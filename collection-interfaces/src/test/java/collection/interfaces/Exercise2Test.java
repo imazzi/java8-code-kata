@@ -29,8 +29,7 @@ public class Exercise2Test {
         /**
          * Try to get from key "Alice" using {@link Map#getOrDefault}. If the key doesn't exist, use 30 as default.
          */
-        Integer defaultVal = null;
-
+        Integer defaultVal = map.getOrDefault(map.get("alice"),30);
         assertThat(defaultVal, is(30));
     }
 
@@ -42,7 +41,9 @@ public class Exercise2Test {
          * Try to put 2 entry with key as "Alice" value as 32, key as "Joe" and value as 32 using {@link Map#putIfAbsent}.
          */
         // map.
+        map.putIfAbsent("Alice",32);
         // map.
+        map.putIfAbsent("Joe",32);
 
         assertThat(map.get("Alice"), is(32));
         assertThat(map.get("Joe"), is(22));
@@ -58,7 +59,9 @@ public class Exercise2Test {
          */
         BiFunction<Object, Object, Integer> remappingFunction = null;
         // map.
+        map.merge("Alice",32,(integer, integer2) -> integer + integer2);
         // map.
+        map.merge("Joe",32,(integer, integer2) -> integer + integer2);
 
         assertThat(map.get("Alice"), is(32));
         assertThat(map.get("Joe"), is(54));
@@ -71,10 +74,14 @@ public class Exercise2Test {
         /**
          * Try to increment the value for keys "Joe", "Steven" and "Alice" using {@link Map#computeIfPresent}.
          */
-        BiFunction<Object, Object, Integer> remappingFunction = null;
+        BiFunction<String, Integer, Integer> remappingFunction = (s, integer) -> ++integer;
         // map.
+        map.computeIfPresent("Joe",remappingFunction);
         // map.
+        map.computeIfPresent("Steven",remappingFunction);
         // map.
+        map.computeIfPresent("Alice",remappingFunction);
+
 
         assertThat(map.get("Joe"), is(23));
         assertThat(map.get("Steven"), is(28));
